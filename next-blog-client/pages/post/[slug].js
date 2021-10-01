@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import imageUrlBuilder from "@sanity/image-url";
 import styles from "../../styles/post.module.css";
 import BlockContent from "@sanity/block-content-to-react";
+import Toolbar from "../../components/Toolbar";
 
 export const Post = ({ title, body, image }) => {
   const [imageUrl, setImageUrl] = useState("");
@@ -16,19 +17,21 @@ export const Post = ({ title, body, image }) => {
   }, [image]);
 
   return (
-    <div className={styles.main}>
-      <h1> {title}</h1>
-      {imageUrl && <img src={imageUrl} className={styles.mainImage} />}
-      <div className={styles.body}>
-        <BlockContent blocks={body} />
+    <>
+      <Toolbar />
+      <div className={styles.main}>
+        <h1> {title}</h1>
+        {imageUrl && <img src={imageUrl} className={styles.mainImage} />}
+        <div className={styles.body}>
+          <BlockContent blocks={body} />
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
 export const getServerSideProps = async (pageContect) => {
   const pageSlug = pageContect.query.slug;
-  console.log(pageSlug);
 
   if (!pageSlug) {
     return {
@@ -39,7 +42,7 @@ export const getServerSideProps = async (pageContect) => {
   const query = encodeURIComponent(
     `*[ _type == "post" && slug.current == "${pageSlug}"]`
   );
-  const url = `https://sztfzzdp.api.sanity.io/v1/data/query/production?query=${query}`;
+  const url = `https://${process.env.SANITY_API}.api.sanity.io/v1/data/query/production?query=${query}`;
 
   const result = await fetch(url).then((res) => res.json());
 

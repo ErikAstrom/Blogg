@@ -1,0 +1,19 @@
+.main {
+  margin: auto;
+  width: 80%;
+  display: flex;
+  color: antiquewhite;
+  margin-bottom: 50px;
+  justify-content: center;
+  background-color: darkslategray;
+  border-radius: 0px 0px 5px 5px;
+}
+
+.main div {
+  margin: 25px;
+  cursor: pointer;
+}
+
+.main div:hover {
+  color: lightskyblue;
+}
